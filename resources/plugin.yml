@@ -1,0 +1,13 @@
+name: aooni
+version: '${project.version}'
+main: me.kuma.aooni.Aooni
+commands:
+  AooniGameStart:
+    aliases: ags
+  ChangeAooniSize:
+    aliases: cas
+  Test:
+  AooniGameEnd:
+  builder:
+  ChangeAooniTimeLimit:
+  aoonirevival:

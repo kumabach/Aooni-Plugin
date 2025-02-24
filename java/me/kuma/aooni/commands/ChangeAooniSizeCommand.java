@@ -1,0 +1,48 @@
+package me.kuma.aooni.commands;
+
+import me.kuma.aooni.Aooni;
+import me.kuma.aooni.mains.AooniManager;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class ChangeAooniSizeCommand extends AbstractCommand {
+
+    public ChangeAooniSizeCommand(Aooni plugin) {
+        super(plugin);
+    }
+
+    @Override
+    AbstractCommand getInstance() {
+        return this;
+    }
+
+    @Override
+    public String getCommandName() {
+        return "ChangeAooniSize";
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        AooniManager manager = Aooni.getManager();
+
+        if(!(sender instanceof Player))return true;
+        Player player = (Player)sender;
+        if(!manager.permissionSet.contains(player.getUniqueId()))return true;
+
+        if (args.length != 1) {
+            sender.sendMessage(ChatColor.RED + "/ChangeAooniSize 青鬼の人数");
+            return true;
+        }
+        try {
+            int num = Integer.parseInt(args[0]);
+            Aooni.getManager().AooniSize = num;
+            sender.sendMessage(ChatColor.GREEN + "青鬼の人数が" + args[0] +"になりました！");
+        } catch (NumberFormatException e) {
+            sender.sendMessage(ChatColor.RED + "/ChangeAooniSize 青鬼の人数");
+        }
+        return true;
+    }
+}
