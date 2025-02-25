@@ -173,7 +173,7 @@ public class AooniManager {
     public void GameEnd(int a) {
         //1->ひろし勝ち　2->青鬼勝ち 3->青鬼全滅で勝ち
         //ゲーム結果を表示
-        //
+
         for(Player player : Bukkit.getOnlinePlayers()){
             Location targetLocation = new Location(player.getWorld(), -79, 5, 22);
             player.teleport(targetLocation);
