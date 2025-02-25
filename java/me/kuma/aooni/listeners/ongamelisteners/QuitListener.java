@@ -18,11 +18,11 @@ public class QuitListener implements Listener {
 
         if (manager.aooniteam.hasEntry(player.getName())) {
             manager.aooniCounter--;
-            if (manager.aooniCounter == 0) manager.GameEnd(3);
+            if (manager.aooniCounter == 0) manager.gameEnd(3);
         }
         if (manager.hiroshiteam.hasEntry(player.getName())) {
             manager.hiroshiteam.removeEntry(player.getName());
-            if (manager.hiroshiteam.getSize() == 0) manager.GameEnd(2);
+            if (manager.hiroshiteam.getSize() == 0) manager.gameEnd(2);
         }
         if (manager.gameStatus.equalsIgnoreCase("onGame")) manager.setScoreboard();
     }

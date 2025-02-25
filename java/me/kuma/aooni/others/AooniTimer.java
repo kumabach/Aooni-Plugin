@@ -34,7 +34,7 @@ public class AooniTimer {
             public void run() {
                 if (aooniTimeLeft == 0) {
                     cancel();
-                    manager.GameEnd(1);
+                    manager.gameEnd(1);
                     aooniTimeLeft = aooniTimeLimit;
                     return;
                 }
@@ -85,7 +85,7 @@ public class AooniTimer {
                         Location location = new Location(player.getWorld(),8.0f, 17.0f, -159.0f);
                         player.teleport(location);
                         launchFirework(location);
-                        if(manager.hiroshiteam.getSize() == 0)manager.GameEnd(1);
+                        if(manager.hiroshiteam.getSize() == 0)manager.gameEnd(1);
                     }
                 }
             }

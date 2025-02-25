@@ -170,7 +170,7 @@ public class AooniManager {
         setScoreboard();
     }
 
-    public void GameEnd(int a) {
+    public void gameEnd(int a) {
         //1->ひろし勝ち　2->青鬼勝ち 3->青鬼全滅で勝ち
         //ゲーム結果を表示
 
@@ -224,10 +224,10 @@ public class AooniManager {
             player.teleport(targetLocation);
         }
         votedPlayers =new HashSet<>();
-        VotingPlayer();
+        votePlayer();
     }
 
-    private void VotingPlayer() {
+    private void votePlayer() {
 
         new BukkitRunnable() {
 

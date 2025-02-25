@@ -37,7 +37,7 @@ public class AooniDamageListener implements Listener {
             Location targetLocation = new Location(player.getWorld(), -79, 5, 22);
             player.teleport(targetLocation);
             for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(ChatColor.BLUE + victim + "は青鬼に食べられた");
-            if (manager.hiroshiteam.getSize() == 0) manager.GameEnd(2);
+            if (manager.hiroshiteam.getSize() == 0) manager.gameEnd(2);
         } else {
             event.setCancelled(true);
         }

@@ -33,7 +33,7 @@ public class AooniGameEndCommand extends AbstractCommand {
         if (!manager.gameStatus.equalsIgnoreCase("onGame")) {
             sender.sendMessage(ChatColor.RED + "ゲームがまだ始まっていません!");
         } else {
-            manager.GameEnd(1);
+            manager.gameEnd(1);
             sender.sendMessage(ChatColor.GREEN + "ゲームを終了しました！");
         }
         return true;
