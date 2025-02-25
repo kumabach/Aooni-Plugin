@@ -43,7 +43,7 @@ public class AooniTimer {
                     return;
                 }
                 aooniTimeLeft--;
-                manager.SetScoreboard();
+                manager.setScoreboard();
             }
         }.runTaskTimer(Aooni.getPlugin(), 0, 20);
     }

@@ -34,7 +34,7 @@ public class RevivalCommand extends AbstractCommand {
         if (!manager.gameStatus.equalsIgnoreCase("onGame")) return true;
         if (manager.aooniteam.hasEntry(player.getName())) return true;
         if (manager.hiroshiteam.hasEntry(player.getName())) return true;
-        manager.Revival(player);
+        manager.revival(player);
         return true;
     }
 }

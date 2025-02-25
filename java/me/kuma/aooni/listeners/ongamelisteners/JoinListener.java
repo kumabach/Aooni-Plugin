@@ -15,7 +15,7 @@ public class JoinListener implements Listener {
         AooniManager manager = Aooni.getManager();
         Player player = event.getPlayer();
         if (manager.aooniteam.hasEntry(player.getName())) manager.aooniCounter++;
-        if (manager.gameStatus.equalsIgnoreCase("onGame")) manager.SetScoreboard();
+        if (manager.gameStatus.equalsIgnoreCase("onGame")) manager.setScoreboard();
         player.setScoreboard(manager.scoreboard);
         Location targetLocation = new Location(player.getWorld(), -79, 5, 22);
         player.teleport(targetLocation);

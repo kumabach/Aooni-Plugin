@@ -24,6 +24,6 @@ public class QuitListener implements Listener {
             manager.hiroshiteam.removeEntry(player.getName());
             if (manager.hiroshiteam.getSize() == 0) manager.GameEnd(2);
         }
-        if (manager.gameStatus.equalsIgnoreCase("onGame")) manager.SetScoreboard();
+        if (manager.gameStatus.equalsIgnoreCase("onGame")) manager.setScoreboard();
     }
 }

@@ -46,7 +46,7 @@ public class AooniManager {
             player.setHealth(20);
             player.setFoodLevel(20);
         }
-        DeleteGame();
+        deleteGame();
     }
 
     public void startCountdown(int countdownTime) {
@@ -62,7 +62,7 @@ public class AooniManager {
                 }
                 if (timeLeft <= 0) {
                     for(Player player:Bukkit.getOnlinePlayers())player.sendMessage(ChatColor.BLUE + "ゲーム開始");
-                    GameRest();
+                    gameRest();
                     cancel();
                 } else {
                     for(Player player:Bukkit.getOnlinePlayers())player.sendMessage(ChatColor.BLUE + String.valueOf(timeLeft));
@@ -72,9 +72,9 @@ public class AooniManager {
         }.runTaskTimer(Aooni.getPlugin(), 0, 20);
     }
 
-    private void GameRest() {
+    private void gameRest() {
 
-        ChooseAooni(aooniSize);
+        chooseAooni(aooniSize);
 
         for (String s : aooniteam.getEntries()) {
             Player player = Bukkit.getPlayer(s);
@@ -110,13 +110,13 @@ public class AooniManager {
 
         GrantPotionEffect.GrantEffect();
 
-        SetScoreboard();
+        setScoreboard();
         AooniTimer.timerStart();
         AooniTimer.updatingOnGame();
         gameStartTime = (double) System.currentTimeMillis();
     }
 
-    private void ChooseAooni(int siz) {
+    private void chooseAooni(int siz) {
         siz = Math.min(siz, Bukkit.getOnlinePlayers().size() - 1);
         Set<Player> players = new HashSet<>(Bukkit.getOnlinePlayers());
         for(Player player: votedPlayers)players.remove(player);
@@ -130,7 +130,7 @@ public class AooniManager {
         }
     }
 
-    public void SetScoreboard() {
+    public void setScoreboard() {
 
         Objective existingObjective = scoreboard.getObjective("AooniGame");
         if (existingObjective != null) {
@@ -161,13 +161,13 @@ public class AooniManager {
         }
     }
 
-    public void Revival(Player player) {
+    public void revival(Player player) {
         hiroshiteam.addEntry(player.getName());
         for (Player p : Bukkit.getOnlinePlayers())
             p.sendMessage(ChatColor.GREEN + player.getName() + "が復活しました！");
         Location targetLocation = new Location(player.getWorld(), -30, 12, -70);
         player.teleport(targetLocation);
-        SetScoreboard();
+        setScoreboard();
     }
 
     public void GameEnd(int a) {
@@ -190,10 +190,10 @@ public class AooniManager {
             }
         }
 
-        DeleteGame();
+        deleteGame();
     }
 
-    private void DeleteGame(){
+    private void deleteGame(){
 
         if(aooniteam!=null)aooniteam.unregister();
         if(hiroshiteam!=null)hiroshiteam.unregister();
