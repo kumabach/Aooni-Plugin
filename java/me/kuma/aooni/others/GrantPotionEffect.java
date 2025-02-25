@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class GrantPotionEffect {
 
-    public static Set<tuple> sects;
+    public static Set<Tuple> sects;
 
     public GrantPotionEffect() {
         sects = new HashSet<>();
@@ -33,7 +33,7 @@ public class GrantPotionEffect {
                 }
                 for (String s : manager.aooniteam.getEntries()) {
                     Player player = Bukkit.getPlayer(s);
-                    for (tuple t : sects) {
+                    for (Tuple t : sects) {
                         double a, b, c, d;
                         a = (double) t.getFirst();
                         b = (double) t.getSecond();
@@ -54,7 +54,7 @@ public class GrantPotionEffect {
     }
 
     public void AddGrants(double a, double b, double c, double d) {
-        tuple t = new tuple<>(a, b, c, d);
+        Tuple t = new Tuple<>(a, b, c, d);
         sects.add(t);
     }
 

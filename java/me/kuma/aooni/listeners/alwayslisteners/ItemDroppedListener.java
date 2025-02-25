@@ -1,4 +1,4 @@
-package me.kuma.aooni.listeners.AlwaysListeners;
+package me.kuma.aooni.listeners.alwayslisteners;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Item;

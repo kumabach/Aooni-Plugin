@@ -43,7 +43,7 @@ public class ChangeAooniTimeLimitCommand extends AbstractCommand {
                 sender.sendMessage(ChatColor.RED + "1~3600秒の範囲しか設定できません！");
                 return true;
             }
-            AooniTimer.ChangeTimeLimit(num);
+            AooniTimer.changeTimeLimit(num);
             sender.sendMessage(ChatColor.GREEN + "制限時間が" + args[0]+ "秒になりました");
         } catch (NumberFormatException e) {
             sender.sendMessage(ChatColor.RED + "/ChangeAooniTimeLimit 制限時間(秒)");

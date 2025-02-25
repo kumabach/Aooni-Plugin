@@ -15,26 +15,26 @@ import java.util.*;
 public class AooniManager {
 
     public static String gameStatus;
-    public static ScoreboardManager boardmanager;
+    public static ScoreboardManager scoreboardManager;
     public static Scoreboard scoreboard;
     public static Team aooniteam, hiroshiteam;
-    public static int AooniCounter;
-    public static int AooniSize;
-    public static List<Player>Winnerplayers;
-    public static List<Double>ScoreTimes;
-    public static Set<Player>votedPlayer;
+    public static int aooniCounter;
+    public static int aooniSize;
+    public static List<Player> winnerPlayers;
+    public static List<Double> scoreTimes;
+    public static Set<Player> votedPlayers;
     public static double gameStartTime;
     public static Set<UUID> permissionSet;
 
     public AooniManager() {
         //reloadしたとき
         gameStatus = "waitingPeriod";
-        boardmanager = Bukkit.getScoreboardManager();
-        scoreboard = boardmanager.getNewScoreboard();
+        scoreboardManager = Bukkit.getScoreboardManager();
+        scoreboard = scoreboardManager.getNewScoreboard();
         aooniteam = scoreboard.registerNewTeam("Aooni");
         hiroshiteam = scoreboard.registerNewTeam("Hiroshi");
-        AooniCounter = 0;
-        AooniSize = 1;
+        aooniCounter = 0;
+        aooniSize = 1;
         permissionSet = new HashSet<>();
         permissionSet.add(UUID.fromString("8a580817-88ba-46e8-9de6-638c316dbdf1"));
         permissionSet.add(UUID.fromString("8bdb1040-f181-48e3-90ad-5b58c2798802"));
@@ -74,14 +74,14 @@ public class AooniManager {
 
     private void GameRest() {
 
-        ChooseAooni(AooniSize);
+        ChooseAooni(aooniSize);
 
         for (String s : aooniteam.getEntries()) {
             Player player = Bukkit.getPlayer(s);
             player.setMaxHealth(0.5);
             player.setHealth(0.5);
             player.setFoodLevel(1);
-            AooniCounter++;
+            aooniCounter++;
             ItemStack helmet = new ItemStack(Material.DIAMOND_HELMET);
             ItemStack chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
             ItemStack leggings = new ItemStack(Material.DIAMOND_LEGGINGS);
@@ -111,17 +111,17 @@ public class AooniManager {
         GrantPotionEffect.GrantEffect();
 
         SetScoreboard();
-        AooniTimer.TimerStart();
-        AooniTimer.UpdatingOnGame();
+        AooniTimer.timerStart();
+        AooniTimer.updatingOnGame();
         gameStartTime = (double) System.currentTimeMillis();
     }
 
     private void ChooseAooni(int siz) {
         siz = Math.min(siz, Bukkit.getOnlinePlayers().size() - 1);
         Set<Player> players = new HashSet<>(Bukkit.getOnlinePlayers());
-        for(Player player: votedPlayer)players.remove(player);
+        for(Player player: votedPlayers)players.remove(player);
         List<Player> nonvoted = new ArrayList<>(players);
-        List<Player> voted = new ArrayList<>(votedPlayer);
+        List<Player> voted = new ArrayList<>(votedPlayers);
         Collections.shuffle(nonvoted);
         Collections.shuffle(voted);
         voted.addAll(nonvoted);
@@ -142,10 +142,10 @@ public class AooniManager {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(ChatColor.RED + "Aooni Game");
 
-        Score aooniScore = objective.getScore(ChatColor.BLUE + "青鬼: " + String.valueOf(AooniCounter));
+        Score aooniScore = objective.getScore(ChatColor.BLUE + "青鬼: " + String.valueOf(aooniCounter));
         Score survivorScore = objective.getScore(ChatColor.GREEN + "生存者: " + String.valueOf(hiroshiteam.getSize()));
 
-        int timeleft = AooniTimer.aoonitimeleft;
+        int timeleft = AooniTimer.aooniTimeLeft;
         int second = timeleft % 60;
         timeleft /= 60;
         int minutes = timeleft;
@@ -182,7 +182,7 @@ public class AooniManager {
             for(Player player : Bukkit.getOnlinePlayers())player.sendMessage(ChatColor.RED+"ひろしが全滅しました "+ChatColor.BLUE+"青鬼の勝ち！");
         }
         else{
-            if(Winnerplayers.size() == 0){
+            if(winnerPlayers.size() == 0){
                for(Player player : Bukkit.getOnlinePlayers()) player.sendMessage(ChatColor.RED+"青鬼が全滅しました！");
             }
             else {
@@ -201,10 +201,10 @@ public class AooniManager {
         aooniteam = scoreboard.registerNewTeam("Aooni");
         hiroshiteam = scoreboard.registerNewTeam("Hiroshi");
 
-        AooniCounter = 0;
-        AooniSize = 1;
-        Winnerplayers = new ArrayList<>();
-        ScoreTimes = new ArrayList<>();
+        aooniCounter = 0;
+        aooniSize = 1;
+        winnerPlayers = new ArrayList<>();
+        scoreTimes = new ArrayList<>();
         gameStatus = "waiting";
 
         Objective existingObjective = scoreboard.getObjective("AooniGame");
@@ -223,7 +223,7 @@ public class AooniManager {
             Location targetLocation = new Location(player.getWorld(), -79, 5, 22);
             player.teleport(targetLocation);
         }
-        votedPlayer=new HashSet<>();
+        votedPlayers =new HashSet<>();
         VotingPlayer();
     }
 
@@ -253,13 +253,13 @@ public class AooniManager {
                     if (flag) {
                         player.sendMessage(ChatColor.BLUE+"現在青鬼に投票しています！");
                         player.playSound(player.getLocation(), Sound.LEVEL_UP, 3.0f, 1.0f);
-                        if(!votedPlayer.contains(player))votedPlayer.add(player);
+                        if(!votedPlayers.contains(player)) votedPlayers.add(player);
                     }
                     else{
-                        if(votedPlayer.contains(player)){
+                        if(votedPlayers.contains(player)){
                             player.sendMessage(ChatColor.RED+"青鬼への投票をやめました！");
                             player.playSound(player.getLocation(), Sound.DIG_STONE, 3.0f, 1.0f);
-                            votedPlayer.remove(player);
+                            votedPlayers.remove(player);
                         }
                     }
                 }

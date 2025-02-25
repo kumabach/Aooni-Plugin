@@ -1,4 +1,4 @@
-package me.kuma.aooni.listeners.onGameListeners;
+package me.kuma.aooni.listeners.ongamelisteners;
 
 import me.kuma.aooni.Aooni;
 import me.kuma.aooni.mains.AooniManager;
@@ -14,7 +14,7 @@ public class JoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         AooniManager manager = Aooni.getManager();
         Player player = event.getPlayer();
-        if (manager.aooniteam.hasEntry(player.getName())) manager.AooniCounter++;
+        if (manager.aooniteam.hasEntry(player.getName())) manager.aooniCounter++;
         if (manager.gameStatus.equalsIgnoreCase("onGame")) manager.SetScoreboard();
         player.setScoreboard(manager.scoreboard);
         Location targetLocation = new Location(player.getWorld(), -79, 5, 22);

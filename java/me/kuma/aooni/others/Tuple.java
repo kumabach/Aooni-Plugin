@@ -2,13 +2,13 @@ package me.kuma.aooni.others;
 
 import java.util.Objects;
 
-public class tuple<A, B, C, D> {
+public class Tuple<A, B, C, D> {
     private final A first;
     private final B second;
     private final C third;
     private final D fourth;
 
-    public tuple(A first, B second, C third, D fourth) {
+    public Tuple(A first, B second, C third, D fourth) {
         this.first = first;
         this.second = second;
         this.third = third;
@@ -24,7 +24,7 @@ public class tuple<A, B, C, D> {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        tuple<?, ?, ?, ?> that = (tuple<?, ?, ?, ?>) obj;
+        Tuple<?, ?, ?, ?> that = (Tuple<?, ?, ?, ?>) obj;
         return Objects.equals(first, that.first) &&
                 Objects.equals(second, that.second) &&
                 Objects.equals(third, that.third) &&

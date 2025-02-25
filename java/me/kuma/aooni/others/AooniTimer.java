@@ -13,42 +13,42 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class AooniTimer {
 
-    public static int aoonitimelimit;
-    public static int aoonitimeleft;
+    public static int aooniTimeLimit;
+    public static int aooniTimeLeft;
 
     public AooniTimer() {
-        aoonitimelimit = 600;
-        aoonitimeleft = 600;
+        aooniTimeLimit = 600;
+        aooniTimeLeft = 600;
     }
 
-    public static void ChangeTimeLimit(int t) {
-        aoonitimelimit = t;
-        aoonitimeleft = t;
+    public static void changeTimeLimit(int t) {
+        aooniTimeLimit = t;
+        aooniTimeLeft = t;
     }
 
-    public static void TimerStart() {
+    public static void timerStart() {
 
         AooniManager manager = Aooni.getManager();
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (aoonitimeleft == 0) {
+                if (aooniTimeLeft == 0) {
                     cancel();
                     manager.GameEnd(1);
-                    aoonitimeleft = aoonitimelimit;
+                    aooniTimeLeft = aooniTimeLimit;
                     return;
                 }
                 if (!manager.gameStatus.equalsIgnoreCase("OnGame")) {
                     cancel();
                     return;
                 }
-                aoonitimeleft--;
+                aooniTimeLeft--;
                 manager.SetScoreboard();
             }
         }.runTaskTimer(Aooni.getPlugin(), 0, 20);
     }
 
-    public static void UpdatingOnGame() {
+    public static void updatingOnGame() {
 
         AooniManager manager = Aooni.getManager();
         new BukkitRunnable() {
@@ -80,8 +80,8 @@ public class AooniTimer {
                         double time = (double) System.currentTimeMillis() - manager.gameStartTime;
                         for(Player p: Bukkit.getOnlinePlayers())p.sendMessage(ChatColor.AQUA+s+"が脱出しました！");
                         manager.hiroshiteam.removeEntry(s);
-                        manager.Winnerplayers.add(player);
-                        manager.ScoreTimes.add(time);
+                        manager.winnerPlayers.add(player);
+                        manager.scoreTimes.add(time);
                         Location location = new Location(player.getWorld(),8.0f, 17.0f, -159.0f);
                         player.teleport(location);
                         launchFirework(location);

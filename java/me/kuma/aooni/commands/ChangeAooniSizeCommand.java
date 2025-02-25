@@ -38,7 +38,7 @@ public class ChangeAooniSizeCommand extends AbstractCommand {
         }
         try {
             int num = Integer.parseInt(args[0]);
-            Aooni.getManager().AooniSize = num;
+            Aooni.getManager().aooniSize = num;
             sender.sendMessage(ChatColor.GREEN + "青鬼の人数が" + args[0] +"になりました！");
         } catch (NumberFormatException e) {
             sender.sendMessage(ChatColor.RED + "/ChangeAooniSize 青鬼の人数");

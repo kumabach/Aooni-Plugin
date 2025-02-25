@@ -1,4 +1,4 @@
-package me.kuma.aooni.listeners.onGameListeners;
+package me.kuma.aooni.listeners.ongamelisteners;
 
 import me.kuma.aooni.Aooni;
 import me.kuma.aooni.mains.AooniManager;
@@ -17,8 +17,8 @@ public class QuitListener implements Listener {
         Player player = event.getPlayer();
 
         if (manager.aooniteam.hasEntry(player.getName())) {
-            manager.AooniCounter--;
-            if (manager.AooniCounter == 0) manager.GameEnd(3);
+            manager.aooniCounter--;
+            if (manager.aooniCounter == 0) manager.GameEnd(3);
         }
         if (manager.hiroshiteam.hasEntry(player.getName())) {
             manager.hiroshiteam.removeEntry(player.getName());

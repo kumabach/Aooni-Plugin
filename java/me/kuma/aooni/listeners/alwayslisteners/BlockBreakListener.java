@@ -1,4 +1,4 @@
-package me.kuma.aooni.listeners.AlwaysListeners;
+package me.kuma.aooni.listeners.alwayslisteners;
 
 import me.kuma.aooni.mains.AooniManager;
 import org.bukkit.entity.Player;

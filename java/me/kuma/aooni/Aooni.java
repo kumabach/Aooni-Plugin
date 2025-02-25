@@ -1,11 +1,11 @@
 package me.kuma.aooni;
 
 import me.kuma.aooni.commands.*;
-import me.kuma.aooni.listeners.AlwaysListeners.*;
-import me.kuma.aooni.listeners.onGameListeners.AooniDamageListener;
-import me.kuma.aooni.listeners.onGameListeners.GetItemListener;
-import me.kuma.aooni.listeners.onGameListeners.JoinListener;
-import me.kuma.aooni.listeners.onGameListeners.QuitListener;
+import me.kuma.aooni.listeners.alwayslisteners.*;
+import me.kuma.aooni.listeners.ongamelisteners.AooniDamageListener;
+import me.kuma.aooni.listeners.ongamelisteners.GetItemListener;
+import me.kuma.aooni.listeners.ongamelisteners.JoinListener;
+import me.kuma.aooni.listeners.ongamelisteners.QuitListener;
 import me.kuma.aooni.mains.AooniManager;
 import me.kuma.aooni.others.AooniTimer;
 import me.kuma.aooni.others.GrantPotionEffect;
