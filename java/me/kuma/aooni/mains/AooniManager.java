@@ -28,7 +28,6 @@ public class AooniManager {
 
     public AooniManager() {
         //reloadしたとき
-        gameStatus = "waitingPeriod";
         scoreboardManager = Bukkit.getScoreboardManager();
         scoreboard = scoreboardManager.getNewScoreboard();
         aooniteam = scoreboard.registerNewTeam("Aooni");
@@ -251,9 +250,11 @@ public class AooniManager {
                     double z =location.getZ();
                     boolean flag = (-71.5f<=x&&x<=-67.0f&&11.5f<=z&&z<=16f);
                     if (flag) {
-                        player.sendMessage(ChatColor.BLUE+"現在青鬼に投票しています！");
-                        player.playSound(player.getLocation(), Sound.LEVEL_UP, 3.0f, 1.0f);
-                        if(!votedPlayers.contains(player)) votedPlayers.add(player);
+                        if(!votedPlayers.contains(player)) {
+                            player.sendMessage(ChatColor.BLUE+"現在青鬼に投票しています！");
+                            player.playSound(player.getLocation(), Sound.LEVEL_UP, 3.0f, 1.0f);
+                            votedPlayers.add(player);
+                        }
                     }
                     else{
                         if(votedPlayers.contains(player)){
@@ -263,7 +264,16 @@ public class AooniManager {
                         }
                     }
                 }
+                Location location = new Location(Bukkit.getWorld("world"), -69, 5, 14);
+                for (int i = 0; i < 20; i++) { // 20回エフェクトを表示
+                    double offsetX = (Math.random() - 0.5) * 2; // -1.0から1.0の範囲
+                    double offsetY = (Math.random() - 0.5) * 2; // -1.0から1.0の範囲
+                    double offsetZ = (Math.random() - 0.5) * 2; // -1.0から1.0の範囲
+                    Location offsetLocation = location.clone().add(offsetX, offsetY, offsetZ);
+                    offsetLocation.getWorld().playEffect(offsetLocation, Effect.PORTAL, 0);
+                }
             }
+
         }.runTaskTimer(Aooni.getPlugin(), 0, 20);
     }
 

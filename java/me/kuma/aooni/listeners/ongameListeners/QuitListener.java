@@ -1,4 +1,4 @@
-package me.kuma.aooni.listeners.ongamelisteners;
+package me.kuma.aooni.listeners.ongameListeners;
 
 import me.kuma.aooni.Aooni;
 import me.kuma.aooni.mains.AooniManager;

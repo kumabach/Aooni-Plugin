@@ -1,4 +1,4 @@
-package me.kuma.aooni.listeners.alwayslisteners;
+package me.kuma.aooni.listeners.alwaysListeners;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
@@ -12,7 +12,7 @@ public class ItemDroppedListener implements Listener {
     public void onItemDrop(ItemSpawnEvent event) {
         ItemStack droppedItem = event.getEntity().getItemStack();
         Item itemEntity = event.getEntity();
-        if (droppedItem.getType() == Material.STONE_PLATE) {
+        if (droppedItem.getType() != Material.COOKED_BEEF) {
             itemEntity.remove();
         }
     }

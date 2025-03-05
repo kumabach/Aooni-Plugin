@@ -1,7 +1,7 @@
 package me.kuma.aooni.commands;
 
 import me.kuma.aooni.Aooni;
-import me.kuma.aooni.listeners.alwayslisteners.BlockBreakListener;
+import me.kuma.aooni.listeners.alwaysListeners.BlockBreakListener;
 import me.kuma.aooni.mains.AooniManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

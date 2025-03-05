@@ -1,6 +1,5 @@
-package me.kuma.aooni.listeners.alwayslisteners;
+package me.kuma.aooni.listeners.alwaysListeners;
 
-import me.kuma.aooni.mains.AooniManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +10,6 @@ import java.util.Set;
 
 public class BlockBreakListener implements Listener {
 
-    private AooniManager aooniManager;
     public static Set<Player> aoonibuilders;
 
     public BlockBreakListener() {
