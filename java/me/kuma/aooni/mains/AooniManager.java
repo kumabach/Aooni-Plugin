@@ -25,6 +25,7 @@ public class AooniManager {
     public static Set<Player> votedPlayers;
     public static double gameStartTime;
     public static Set<UUID> permissionSet;
+    private static Team aoonileft,survivorleft,gametimeleft;
 
     public AooniManager() {
         //reloadしたとき
@@ -56,6 +57,7 @@ public class AooniManager {
             public void run() {
                 if (Bukkit.getOnlinePlayers().size() < 2) {
                     for(Player player:Bukkit.getOnlinePlayers())player.sendMessage(ChatColor.RED+"中断されました！");
+                    gameStatus = "waiting";
                     cancel();
                     return;
                 }
@@ -95,6 +97,7 @@ public class AooniManager {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (aooniteam.getEntries().contains(player.getName())) continue;
             hiroshiteam.addEntry(player.getName());
+            player.getInventory().setArmorContents(new ItemStack[4]);
             player.setMaxHealth(20);
             player.setHealth(20);
             player.setFoodLevel(20);
@@ -132,32 +135,48 @@ public class AooniManager {
     public void setScoreboard() {
 
         Objective existingObjective = scoreboard.getObjective("AooniGame");
-        if (existingObjective != null) {
-            scoreboard.clearSlot(DisplaySlot.SIDEBAR);
-            existingObjective.unregister();
+
+        if (existingObjective == null) {
+
+            existingObjective = scoreboard.registerNewObjective("AooniGame", "dummy");
+            existingObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
+            existingObjective.setDisplayName(ChatColor.DARK_PURPLE + "Bahha Server￤青鬼ごっこ");
+
+            aoonileft = scoreboard.registerNewTeam ( "aoonileft" );
+            survivorleft = scoreboard.registerNewTeam("survivorleft");
+            gametimeleft = scoreboard.registerNewTeam("gametimelimit");
+
+            aoonileft.addEntry(ChatColor.BLACK+""+ChatColor.BLUE);
+            survivorleft.addEntry(ChatColor.BLACK+""+ChatColor.GRAY);
+            gametimeleft.addEntry(ChatColor.BLACK+""+ChatColor.AQUA);
+
+            aoonileft.setPrefix(ChatColor.BLUE + "青鬼" + aooniCounter + "体");
+            survivorleft.setPrefix(ChatColor.AQUA + "生存者" + hiroshiteam.getSize() + "人");
+
+            int second = AooniTimer.aooniTimeLeft%60;
+            int minute = AooniTimer.aooniTimeLeft/60;
+            gametimeleft.setPrefix(ChatColor.BLUE + "残り時間：" + minute + "分" + second + "秒");
+
+            Score blank1 = existingObjective.getScore("");
+            Score blank2 = existingObjective.getScore(" ");
+            Score blank3 = existingObjective.getScore("  ");
+            Score blank4 = existingObjective.getScore("   ");
+
+            blank1.setScore(5);
+            existingObjective.getScore(ChatColor.BLACK+""+ChatColor.BLUE).setScore(4);
+            existingObjective.getScore(ChatColor.BLACK+""+ChatColor.GRAY).setScore(3);
+            existingObjective.getScore(ChatColor.BLACK+""+ChatColor.AQUA).setScore(2);
+            blank3.setScore(1);
+
+        } else { //update
+            aoonileft.setPrefix(ChatColor.BLUE + "青鬼: " + ChatColor.WHITE+ aooniCounter +"体");
+            survivorleft.setPrefix(ChatColor.BLUE + "生存者: " + ChatColor.WHITE+hiroshiteam.getSize() +"人");
+
+            int second = AooniTimer.aooniTimeLeft%60;
+            int minute = AooniTimer.aooniTimeLeft/60;
+            gametimeleft.setPrefix(ChatColor.BLUE + "残り時間: " + ChatColor.WHITE + minute + "分" + second + "秒");
         }
-
-        Objective objective = scoreboard.registerNewObjective("AooniGame", "dummy");
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(ChatColor.RED + "Aooni Game");
-
-        Score aooniScore = objective.getScore(ChatColor.BLUE + "青鬼: " + String.valueOf(aooniCounter));
-        Score survivorScore = objective.getScore(ChatColor.GREEN + "生存者: " + String.valueOf(hiroshiteam.getSize()));
-
-        int timeleft = AooniTimer.aooniTimeLeft;
-        int second = timeleft % 60;
-        timeleft /= 60;
-        int minutes = timeleft;
-
-        Score tm = objective.getScore(ChatColor.BLUE + "残り時間： " + String.valueOf(minutes) + "分 " + String.valueOf(second) + "秒");
-
-        survivorScore.setScore(1);
-        aooniScore.setScore(2);
-        tm.setScore(3);
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.setScoreboard(scoreboard);
-        }
+        for(Player player: Bukkit.getOnlinePlayers()) player.setScoreboard(scoreboard);
     }
 
     public void revival(Player player) {
@@ -194,8 +213,9 @@ public class AooniManager {
 
     private void deleteGame(){
 
-        if(aooniteam!=null)aooniteam.unregister();
-        if(hiroshiteam!=null)hiroshiteam.unregister();
+        for(Team team: scoreboard.getTeams()) {
+            team.unregister();
+        }
 
         aooniteam = scoreboard.registerNewTeam("Aooni");
         hiroshiteam = scoreboard.registerNewTeam("Hiroshi");

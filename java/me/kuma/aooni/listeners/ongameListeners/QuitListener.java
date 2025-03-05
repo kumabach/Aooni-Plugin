@@ -15,6 +15,7 @@ public class QuitListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         manager = Aooni.getManager();
         Player player = event.getPlayer();
+        player.getInventory().clear();
 
         if (manager.aooniteam.hasEntry(player.getName())) {
             manager.aooniCounter--;
