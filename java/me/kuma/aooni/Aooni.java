@@ -40,6 +40,7 @@ public final class Aooni extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ItemDropEvent(), this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
         getServer().getPluginManager().registerEvents(new ItemDroppedListener(), this);
+        getServer().getPluginManager().registerEvents(new PlaceBlockListener(), this);
         new GrantPotionEffect();
         new AooniTimer();
     }
