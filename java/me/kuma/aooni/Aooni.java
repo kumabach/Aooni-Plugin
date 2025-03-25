@@ -1,14 +1,14 @@
 package me.kuma.aooni;
 
-import me.kuma.aooni.commands.*;
+import me.kuma.aooni.gameUtils.listeners.commands.*;
 
-import me.kuma.aooni.listeners.alwaysListeners.*;
-import me.kuma.aooni.listeners.ongameListeners.*;
-import me.kuma.aooni.mains.AooniManager;
-import me.kuma.aooni.others.AndurilItem;
-import me.kuma.aooni.others.AooniTimer;
-import me.kuma.aooni.others.GrantPotionEffect;
+import me.kuma.aooni.gameUtils.listeners.alwaysListeners.*;
+import me.kuma.aooni.gameUtils.listeners.ongameListeners.*;
+import me.kuma.aooni.gameUtils.listeners.mains.AooniManager;
+import me.kuma.aooni.gameUtils.listeners.others.*;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
 
 public final class Aooni extends JavaPlugin {
 
@@ -40,8 +40,14 @@ public final class Aooni extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ItemDroppedListener(), this);
         getServer().getPluginManager().registerEvents(new PlaceBlockListener(), this);
         getServer().getPluginManager().registerEvents(new ItemHeldListener(), this);
+        //getServer().getPluginManager().registerEvents(new LeftClickListener(), this);
         new GrantPotionEffect();
         new AooniTimer();
+        try {
+            new FillChests();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
