@@ -6,6 +6,7 @@ import me.kuma.aooni.gameUtils.listeners.others.AooniTimer;
 import me.kuma.aooni.gameUtils.listeners.others.FillChests;
 import me.kuma.aooni.gameUtils.listeners.others.GrantPotionEffect;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,6 +30,7 @@ public class AooniManager {
     public static double gameStartTime;
     public static Set<UUID> permissionSet;
     private static Team aoonileft,survivorleft,gametimeleft;
+    public static int Keys;
 
     public AooniManager() {
         //reloadしたとき
@@ -130,6 +132,12 @@ public class AooniManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        FillChests.fillChestsOthers();
+//        try {
+//            FillChests.fillChestsOthers();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
 
@@ -204,28 +212,45 @@ public class AooniManager {
         setScoreboard();
     }
 
+    public int endCnt;
+
     public void gameEnd(int a) {
         //1->ひろし勝ち　2->青鬼勝ち 3->青鬼全滅で勝ち
         //ゲーム結果を表示
 
         for(Player player : Bukkit.getOnlinePlayers()){
-            Location targetLocation = new Location(player.getWorld(), -79, 5, 22);
+            Location targetLocation = new Location(player.getWorld(), 8, 16, -155);
             player.teleport(targetLocation);
         }
         if(a==2) {
             for(Player player : Bukkit.getOnlinePlayers())player.sendMessage(ChatColor.RED+"ひろしが全滅しました "+ChatColor.BLUE+"青鬼の勝ち！");
         }
-        else{
-            if(winnerPlayers.size() == 0){
-               for(Player player : Bukkit.getOnlinePlayers()) player.sendMessage(ChatColor.RED+"青鬼が全滅しました！");
-            }
-            else {
-
-            }
+        if(a==3) {
+            for(Player player : Bukkit.getOnlinePlayers())player.sendMessage(ChatColor.RED+"青鬼が全滅しました "+ChatColor.BLUE+"ひろしの勝ち！");
+        }
+        if(a==1) {
+            String announce="";
+            for(Player player: winnerPlayers)announce+=player.getName()+",";
+            announce = announce.substring(0, announce.length() - 1);
+            for(Player player : Bukkit.getOnlinePlayers())player.sendMessage(ChatColor.DARK_AQUA+"脱出者"+announce);
         }
 
-        deleteGame();
+        endCnt = 10;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                endCnt--;
+                AooniTimer.launchFirework(new Location(Bukkit.getWorld("world"), 8, 16, -155));
+                if(endCnt <= 0 ){
+                    deleteGame();
+                    cancel();
+                }
+            }
+        }.runTaskTimer(Aooni.getPlugin(), 0, 20);
+
     }
+
 
     private void deleteGame(){
 
@@ -241,6 +266,22 @@ public class AooniManager {
         winnerPlayers = new ArrayList<>();
         scoreTimes = new ArrayList<>();
         gameStatus = "waiting";
+        Keys=0;
+
+        Block block1 = new Location(Bukkit.getWorld("world"),38.0,12.0,-91.0).getBlock();
+        Block block2 = new Location(Bukkit.getWorld("world"),38.0,13.0,-91.0).getBlock();
+        block1.setType(Material.GLASS);
+        block2.setType(Material.GLASS);
+        Block block3 = new Location(Bukkit.getWorld("world"),0.0,31.0,-98.0).getBlock();
+        block3.setType(Material.AIR);
+        Block block4 = new Location(Bukkit.getWorld("world"),4.0,33.0,-66.0).getBlock();
+        Block block5 = new Location(Bukkit.getWorld("world"),4.0,34.0,-66.0).getBlock();
+        block4.setType(Material.AIR);
+        block5.setType(Material.AIR);
+        Block block6 = new Location(Bukkit.getWorld("world"),4.0,36.0,-66.0).getBlock();
+        Block block7 = new Location(Bukkit.getWorld("world"),4.0,37.0,-66.0).getBlock();
+        block6.setType(Material.SAND);
+        block7.setType(Material.SAND);
 
         Objective existingObjective = scoreboard.getObjective("AooniGame");
         if (existingObjective != null) {
@@ -284,7 +325,8 @@ public class AooniManager {
                     Location location = player.getLocation();
                     double x =location.getX();
                     double z =location.getZ();
-                    boolean flag = (-71.5f<=x&&x<=-67.0f&&11.5f<=z&&z<=16f);
+                    double y = location.getY();
+                    boolean flag = (-71.5f<=x&&x<=-67.0f&&11.5f<=z&&z<=16f&&y<=6.0f);
                     if (flag) {
                         if(!votedPlayers.contains(player)) {
                             player.sendMessage(ChatColor.BLUE+"現在青鬼に投票しています！");

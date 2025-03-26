@@ -27,7 +27,6 @@ public class FillChests {
 
         for(int i=0; i<2; i++){
             readJson(i);
-            Bukkit.getPlayer("bach11").sendMessage(i+"!");
         }
     }
 
@@ -50,30 +49,48 @@ public class FillChests {
         }
     }
 
-    public static void fillChestsOthers() throws IOException {
+    public static void fillChestsOthers() {
+        for (int i = 0; i < 2; i++) {
+            if (chests.get(i) == null || chests.get(i).isEmpty()) continue;
 
-        for(int i=0; i<2; i++){
-            int idx =  random.nextInt(chests.get(i).size());
-            Location location = (Location) chests.get(i).toArray()[idx];
-            Chest chest = (Chest)location.getBlock();
+            List<Location> locations = new ArrayList<>(chests.get(i));
+            int idx = random.nextInt(locations.size());
+            Location location = locations.get(idx);
+
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.sendMessage(location.getX() + " " + location.getY() + " " + location.getZ());
+            }
+
+            Block block = location.getBlock();
+            if (!(block.getState() instanceof Chest)) continue;
+            Chest chest = (Chest) block.getState();
             Inventory inventory = chest.getInventory();
+
             List<Integer> emptySlots = new ArrayList<>();
             for (int j = 0; j < inventory.getSize(); j++) {
                 if (inventory.getItem(j) == null) {
                     emptySlots.add(j);
                 }
             }
-            int slot = emptySlots.get(random.nextInt(emptySlots.size()));
-            if(i==0){
-                inventory.setItem(slot,CustomItems.CoalKey());
-                slot = emptySlots.get(random.nextInt(emptySlots.size()));
-                inventory.setItem(slot,CustomItems.Anduril());
-            }
-            else{
-                inventory.setItem(slot,CustomItems.CoalKey());
+            if (emptySlots.isEmpty()) continue;
+
+            int slot = emptySlots.remove(random.nextInt(emptySlots.size()));
+            if (i == 0) {
+                inventory.setItem(slot, CustomItems.CoalKey());
+                if (!emptySlots.isEmpty()) {
+                    int slot2 = emptySlots.get(random.nextInt(emptySlots.size()));
+                    inventory.setItem(slot2, CustomItems.Anduril());
+                }
+            } else {
+                inventory.setItem(slot, CustomItems.LapisKey());
+                if (!emptySlots.isEmpty()) {
+                    int slot2 = emptySlots.get(random.nextInt(emptySlots.size()));
+                    inventory.setItem(slot2, CustomItems.Anduril());
+                }
             }
         }
     }
+
 
 
     public static void fillChestsRandom(Chest chest){

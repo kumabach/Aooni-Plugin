@@ -1,13 +1,13 @@
 package me.kuma.aooni.gameUtils.listeners.others;
 
+import jdk.nashorn.internal.runtime.regexp.joni.encoding.CharacterType;
 import me.kuma.aooni.Aooni;
 import me.kuma.aooni.gameUtils.listeners.mains.AooniManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -46,12 +46,18 @@ public class AooniTimer {
                 }
                 aooniTimeLeft--;
                 manager.setScoreboard();
-                if(aooniTimeLeft%100==0&&aooniTimeLeft<aooniTimeLimit){
+                if(aooniTimeLeft%120==0&&aooniTimeLeft<aooniTimeLimit){
                     try {
                         FillChests.fillChests();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                }
+                if(aooniTimeLeft==aooniTimeLimit-3){
+                    String announce="";
+                    for(String string: manager.aooniteam.getEntries())announce+=string+",";
+                    announce = announce.substring(0, announce.length() - 1);
+                    for(Player player:Bukkit.getOnlinePlayers())player.sendMessage(ChatColor.BLUE+"青鬼："+announce);
                 }
             }
         }.runTaskTimer(Aooni.getPlugin(), 0, 20);
@@ -85,7 +91,8 @@ public class AooniTimer {
                     if(player == null) continue;
                     double x = player.getLocation().getX();
                     double z = player.getLocation().getZ();
-                    boolean flag = (-152.0f<=z&&z<=-139.0f&&5<=x&&x<=11);
+                    double y=  player.getLocation().getY();
+                    boolean flag = (-152.0f<=z&&z<=-139.0f&&5.0f<=x&&x<=11f&&y>=10.0f);
                     if(flag) {
                         double time = (double) System.currentTimeMillis() - manager.gameStartTime;
                         for(Player p: Bukkit.getOnlinePlayers())p.sendMessage(ChatColor.AQUA+s+"が脱出しました！");
@@ -96,6 +103,14 @@ public class AooniTimer {
                         player.teleport(location);
                         launchFirework(location);
                         if(manager.hiroshiteam.getSize() == 0)manager.gameEnd(1);
+                    }
+                }
+                for(Player player:Bukkit.getOnlinePlayers()) {
+                    Block block = player.getLocation().subtract(0,1,0).getBlock();
+                    if(block.getType() == Material.EMERALD_BLOCK) {
+                        if(!player.getInventory().contains(Material.STONE_PLATE)) {
+                            player.getInventory().addItem(new ItemStack(Material.STONE_PLATE, 1));
+                        }
                     }
                 }
             }

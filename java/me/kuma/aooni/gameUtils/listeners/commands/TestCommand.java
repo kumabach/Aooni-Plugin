@@ -4,16 +4,24 @@ package me.kuma.aooni.gameUtils.listeners.commands;
 import me.kuma.aooni.Aooni;
 import me.kuma.aooni.gameUtils.listeners.mains.AooniManager;
 import me.kuma.aooni.gameUtils.listeners.others.CustomItems;
+import me.kuma.aooni.gameUtils.listeners.others.FillChests;
+import me.kuma.aooni.gameUtils.listeners.others.TitleSender;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
+
 public class TestCommand extends AbstractCommand {
+
+    TitleSender ts;
 
     public static int chestType;
     public TestCommand(Aooni plugin) {
         super(plugin);
         chestType =0;
+        ts=new TitleSender();
     }
 
     @Override
@@ -34,8 +42,13 @@ public class TestCommand extends AbstractCommand {
         if(!(sender instanceof Player))return true;
         Player player = (Player)sender;
         if(!manager.permissionSet.contains(player.getUniqueId()))return true;
+        //player.getInventory().addItem(CustomItems.CoalKey());
+        //player.getInventory().addItem(CustomItems.LapisKey());
 
-        player.getInventory().addItem(CustomItems.LapisKey());
+        for(Player p: Bukkit.getOnlinePlayers()){
+            ts.setTime(p, 1, 3, 1);
+            ts.sendTitle(p, "ゲーム開始！", "準備しよう！", null);
+        }
         return true;
 
 //        if(args.length==0){

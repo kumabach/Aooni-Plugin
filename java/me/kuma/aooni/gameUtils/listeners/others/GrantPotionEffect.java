@@ -42,8 +42,9 @@ public class GrantPotionEffect {
 
                         double x = player.getLocation().getX();
                         double y = player.getLocation().getZ();
+                        double z = player.getLocation().getY();
 
-                        if (a <= x && x <= b && c <= y && y <= d) {
+                        if (a <= x && x <= b && c <= y && y <= d && z>=10.0) {
                             player.removePotionEffect(PotionEffectType.SPEED);
                             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 40, 3));
                         } else player.removePotionEffect(PotionEffectType.SPEED);
